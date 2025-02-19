@@ -1,0 +1,12 @@
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Infrastructure.deps.json
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Infrastructure.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Infrastructure.pdb
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.AssemblyInfoInputs.cache
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.AssemblyInfo.cs
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.sourcelink.json
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\refint\WhiteLagoon.Infrastructure.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.pdb
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\ref\WhiteLagoon.Infrastructure.dll
