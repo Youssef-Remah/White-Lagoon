@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{089E000B-E038-42DD-BB11-689992600590}|WhiteLagoon.Domain\\WhiteLagoon.Domain.csproj|d:\\dot-net-projects\\whitelagoon\\whitelagoon.domain\\entities\\villa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{089E000B-E038-42DD-BB11-689992600590}|WhiteLagoon.Domain\\WhiteLagoon.Domain.csproj|solutionrelative:whitelagoon.domain\\entities\\villa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3EE8E3B9-005F-4A1A-8F2E-1DA350D4D922}|WhiteLagoon.Web\\WhiteLagoon.Web.csproj|d:\\dot-net-projects\\whitelagoon\\whitelagoon.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3EE8E3B9-005F-4A1A-8F2E-1DA350D4D922}|WhiteLagoon.Web\\WhiteLagoon.Web.csproj|solutionrelative:whitelagoon.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -27,6 +31,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Villa.cs",
+              "DocumentMoniker": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Domain\\Entities\\Villa.cs",
+              "RelativeDocumentMoniker": "WhiteLagoon.Domain\\Entities\\Villa.cs",
+              "ToolTip": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Domain\\Entities\\Villa.cs",
+              "RelativeToolTip": "WhiteLagoon.Domain\\Entities\\Villa.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-19T14:48:47.133Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\Program.cs",
               "RelativeDocumentMoniker": "WhiteLagoon.Web\\Program.cs",
@@ -34,8 +51,7 @@
               "RelativeToolTip": "WhiteLagoon.Web\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-19T14:24:36.2Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-19T14:24:36.2Z"
             }
           ]
         },
