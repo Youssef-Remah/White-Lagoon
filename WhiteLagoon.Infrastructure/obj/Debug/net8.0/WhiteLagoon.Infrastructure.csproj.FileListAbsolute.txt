@@ -10,3 +10,6 @@ D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\Whit
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\refint\WhiteLagoon.Infrastructure.dll
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.pdb
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\ref\WhiteLagoon.Infrastructure.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Infrastructure.runtimeconfig.json
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.csproj.AssemblyReference.cache
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.genruntimeconfig.cache
