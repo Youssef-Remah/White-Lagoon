@@ -13,3 +13,6 @@ D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\ref\
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Infrastructure.runtimeconfig.json
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.csproj.AssemblyReference.cache
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLagoon.Infrastructure.genruntimeconfig.cache
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Domain.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\bin\Debug\net8.0\WhiteLagoon.Domain.pdb
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Infrastructure\obj\Debug\net8.0\WhiteLag.7132A6B4.Up2Date

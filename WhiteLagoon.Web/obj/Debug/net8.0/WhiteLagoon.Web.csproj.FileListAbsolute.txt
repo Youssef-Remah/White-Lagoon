@@ -148,3 +148,5 @@ D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\obj\Debug\net8.0\WhiteLagoon.Web
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\obj\Debug\net8.0\WhiteLag.E5366113.Up2Date
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\bin\Debug\net8.0\WhiteLagoon.Infrastructure.dll
 D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\bin\Debug\net8.0\WhiteLagoon.Infrastructure.pdb
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\bin\Debug\net8.0\WhiteLagoon.Domain.dll
+D:\Dot-Net-Projects\WhiteLagoon\WhiteLagoon.Web\bin\Debug\net8.0\WhiteLagoon.Domain.pdb
