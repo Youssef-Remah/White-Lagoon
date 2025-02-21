@@ -4,14 +4,14 @@
     "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj": {}
   },
   "projects": {
-    "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj": {
+    "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\WhiteLagoon.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj",
-        "projectName": "WhiteLagoon.Web",
-        "projectPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj",
+        "projectUniqueName": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\WhiteLagoon.Infrastructure.csproj",
+        "projectName": "WhiteLagoon.Infrastructure",
+        "projectPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\WhiteLagoon.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\youssef\\.nuget\\packages\\",
-        "outputPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\obj\\",
+        "outputPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,7 +44,94 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.13, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj",
+        "projectName": "WhiteLagoon.Web",
+        "projectPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\WhiteLagoon.Web.csproj",
+        "packagesPath": "C:\\Users\\youssef\\.nuget\\packages\\",
+        "outputPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\youssef\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\WhiteLagoon.Infrastructure.csproj": {
+                "projectPath": "D:\\Dot-Net-Projects\\WhiteLagoon\\WhiteLagoon.Infrastructure\\WhiteLagoon.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -80,7 +167,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
