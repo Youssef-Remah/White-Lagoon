@@ -47,5 +47,19 @@ namespace WhiteLagoon.Web.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        [Route("[action]/{Id}")]
+        public async Task<IActionResult> Update(int Id)
+        {
+            Villa? villa = await _dbContext.Villas.FirstOrDefaultAsync(v => v.Id == Id);
+
+            if (villa == null)
+            {
+                return NotFound();
+            }
+
+            return View(villa);
+        }
     }
 }
