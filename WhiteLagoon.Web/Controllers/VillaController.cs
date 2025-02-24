@@ -22,11 +22,13 @@ namespace WhiteLagoon.Web.Controllers
             return View(villas);
         }
 
+
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(Villa newVilla)
@@ -48,6 +50,7 @@ namespace WhiteLagoon.Web.Controllers
             return View();
         }
 
+
         [HttpGet]
         [Route("[action]/{Id}")]
         public async Task<IActionResult> Update(int Id)
@@ -56,7 +59,27 @@ namespace WhiteLagoon.Web.Controllers
 
             if (villa == null)
             {
-                return NotFound();
+                string controllerName = nameof(HomeController);
+
+                return RedirectToAction(nameof(HomeController.Error),
+                    controllerName.Substring(0, controllerName.IndexOf("Controller")));
+            }
+
+            return View(villa);
+        }
+
+
+        [HttpPost]
+        [Route("[action]/{Id}")]
+        public async Task<IActionResult> Update(Villa villa)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Villas.Update(villa);
+
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
 
             return View(villa);
