@@ -31,6 +31,11 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Villa newVilla)
         {
+            if (newVilla.Description == newVilla.Name)
+            {
+                ModelState.AddModelError("Description", "The description cannot exactly match the name");
+            }
+
             if (ModelState.IsValid)
             {
                 await _dbContext.Villas.AddAsync(newVilla);
