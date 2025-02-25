@@ -94,5 +94,24 @@ namespace WhiteLagoon.Web.Controllers
 
             return View(villa);
         }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Delete(Villa villa)
+        {
+            Villa? villaToDelete = await _dbContext.Villas.FirstOrDefaultAsync(v => v.Id == villa.Id);
+
+            if (villaToDelete != null)
+            {
+                _dbContext.Villas.Remove(villaToDelete);
+
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
     }
 }
