@@ -70,7 +70,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpPost]
-        [Route("[action]/{Id}")]
+        [Route("[action]")]
         public async Task<IActionResult> Update(Villa villa)
         {
             if (ModelState.IsValid)
