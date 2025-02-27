@@ -44,8 +44,12 @@ namespace WhiteLagoon.Web.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
+                TempData["success"] = "The Villa Has Been Created Successfully";
+
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["success"] = "The Villa Could Not Be Added";
 
             return View();
         }
@@ -79,8 +83,12 @@ namespace WhiteLagoon.Web.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
+                TempData["success"] = "The Villa Has Been Updated Successfully";
+
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["error"] = "The Villa Could Not Be Updated";
 
             return View(villa);
         }
@@ -108,8 +116,12 @@ namespace WhiteLagoon.Web.Controllers
 
                 await _dbContext.SaveChangesAsync();
 
+                TempData["success"] = "The Villa Has Been Deleted Successfully";
+
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["error"] = "The Villa Could Not Be Deleted";
 
             return View();
         }
