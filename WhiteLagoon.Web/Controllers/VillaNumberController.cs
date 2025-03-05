@@ -47,15 +47,26 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(VillaNumber villaNumber)
         {
+            bool isRoomNumberExists = await _dbContext.VillaNumbers
+                                                .AnyAsync(vn => vn.Villa_Number == villaNumber.Villa_Number);
+
             if (ModelState.IsValid)
             {
-                await _dbContext.VillaNumbers.AddAsync(villaNumber);
+                if (!isRoomNumberExists)
+                {
+                    await _dbContext.VillaNumbers.AddAsync(villaNumber);
 
-                await _dbContext.SaveChangesAsync();
+                    await _dbContext.SaveChangesAsync();
 
-                TempData["success"] = "The villa number has been created successfully.";
+                    TempData["success"] = "The villa number has been created successfully.";
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    TempData["error"] = "The villa number already exists";
+                }
             }
 
             return View();
