@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 
@@ -150,6 +149,33 @@ namespace WhiteLagoon.Web.Controllers
                                              .ToList()[0].Name;
 
                 return View(villaNumber);
+            }
+
+            string controllerName = nameof(HomeController);
+
+            return RedirectToAction(nameof(HomeController.Error),
+                controllerName.Substring(0, controllerName.IndexOf("Controller")));
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Delete(VillaNumber villaNumber)
+        {
+            VillaNumber? villaNumberToDelete = await _dbContext.VillaNumbers
+                                                       .FirstOrDefaultAsync(
+                                                       vn => vn.Villa_Number == villaNumber.Villa_Number);
+
+
+            if (villaNumberToDelete is not null)
+            {
+                _dbContext.VillaNumbers.Remove(villaNumberToDelete);
+
+                await _dbContext.SaveChangesAsync();
+
+                TempData["success"] = "Villa Number deleted successfully";
+
+                return RedirectToAction(nameof(Index));
             }
 
             string controllerName = nameof(HomeController);
