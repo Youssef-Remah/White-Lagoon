@@ -98,5 +98,30 @@ namespace WhiteLagoon.Web.Controllers
 
             return View(villaNumberObject);
         }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Update(VillaNumber villaNumber)
+        {
+            bool isVillaNumberExists = await _dbContext.VillaNumbers
+                                                 .AnyAsync(
+                                                 vn => vn.Villa_Number == villaNumber.Villa_Number);
+
+            if (ModelState.IsValid && isVillaNumberExists)
+            {
+                _dbContext.VillaNumbers.Update(villaNumber);
+
+                await _dbContext.SaveChangesAsync();
+
+                TempData["success"] = "Villa number updated successfully";
+
+                return RedirectToAction("Index");
+            }
+
+            TempData["error"] = "Villa number could not be updated";
+
+            return View(villaNumber);
+        }
     }
 }
