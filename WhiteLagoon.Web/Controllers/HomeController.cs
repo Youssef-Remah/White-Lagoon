@@ -1,9 +1,8 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using WhiteLagoon.Web.Models;
 
 namespace WhiteLagoon.Web.Controllers
 {
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,16 +12,22 @@ namespace WhiteLagoon.Web.Controllers
             _logger = logger;
         }
 
+
+        [Route("/")]
         public IActionResult Index()
         {
             return View();
         }
 
+
+        [Route("[action]")]
         public IActionResult Privacy()
         {
             return View();
         }
-        
+
+
+        [Route("[action]")]
         public IActionResult Error()
         {
             return View();

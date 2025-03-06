@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Web.Controllers
 {
+    [Route("[controller]")]
     public class VillaNumberController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -17,6 +19,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Index()
         {
              var villaNumbers = await _dbContext.VillaNumbers
@@ -28,6 +31,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpGet]
+        [Route("[action]")]
         public IActionResult Create()
         {
             IEnumerable<SelectListItem> listItems = _dbContext.Villas
@@ -45,6 +49,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> Create(VillaNumber villaNumber)
         {
             bool isRoomNumberExists = await _dbContext.VillaNumbers
@@ -70,6 +75,28 @@ namespace WhiteLagoon.Web.Controllers
             }
 
             return View();
+        }
+
+
+        [HttpGet]
+        [Route("[action]/{VillaNumberId}")]
+        public async Task<IActionResult> Update(int VillaNumberId)
+        {
+            IEnumerable<SelectListItem> listItems = _dbContext.Villas
+                                           .ToList()
+                                           .Select(v => new SelectListItem()
+                                           {
+                                               Text = v.Name,
+                                               Value = v.Id.ToString()
+                                           });
+
+            ViewBag.VillaList = listItems;
+
+            VillaNumber? villaNumberObject = await _dbContext.VillaNumbers
+                                                       .FirstOrDefaultAsync(
+                                                        vn => vn.Villa_Number == VillaNumberId);
+
+            return View(villaNumberObject);
         }
     }
 }

@@ -5,6 +5,7 @@ using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Web.Controllers
 {
+    [Route("[controller]")]
     public class VillaController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -15,6 +16,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Index()
         {
              var villas = await _dbContext.Villas.ToListAsync();
@@ -24,6 +26,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpGet]
+        [Route("[action]")]
         public IActionResult Create()
         {
             return View();
@@ -31,6 +34,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> Create(Villa newVilla)
         {
             if (newVilla.Description == newVilla.Name)
