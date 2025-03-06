@@ -65,7 +65,7 @@ namespace WhiteLagoon.Web.Controllers
         {
             Villa? villa = await _dbContext.Villas.FirstOrDefaultAsync(v => v.Id == Id);
 
-            if (villa == null)
+            if (villa is null)
             {
                 string controllerName = nameof(HomeController);
 
@@ -114,7 +114,7 @@ namespace WhiteLagoon.Web.Controllers
         {
             Villa? villaToDelete = await _dbContext.Villas.FirstOrDefaultAsync(v => v.Id == villa.Id);
 
-            if (villaToDelete != null)
+            if (villaToDelete is not null)
             {
                 _dbContext.Villas.Remove(villaToDelete);
 

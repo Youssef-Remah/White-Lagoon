@@ -65,7 +65,7 @@ namespace WhiteLagoon.Web.Controllers
 
                     TempData["success"] = "The villa number has been created successfully.";
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
 
                 else
@@ -95,7 +95,14 @@ namespace WhiteLagoon.Web.Controllers
             VillaNumber? villaNumberObject = await _dbContext.VillaNumbers
                                                        .FirstOrDefaultAsync(
                                                         vn => vn.Villa_Number == VillaNumberId);
+            if (villaNumberObject is null)
+            {
+                string controllerName = nameof(HomeController);
 
+                return RedirectToAction(nameof(HomeController.Error),
+                    controllerName.Substring(0, controllerName.IndexOf("Controller")));
+            }
+            
             return View(villaNumberObject);
         }
 
@@ -116,12 +123,39 @@ namespace WhiteLagoon.Web.Controllers
 
                 TempData["success"] = "Villa number updated successfully";
 
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             TempData["error"] = "Villa number could not be updated";
 
             return View(villaNumber);
+        }
+
+
+        [HttpGet]
+        [Route("[action]/{VillaNumberId}")]
+        public async Task<IActionResult> Delete(int VillaNumberId)
+        {
+            VillaNumber? villaNumber = await _dbContext.VillaNumbers
+                                                       .FirstOrDefaultAsync(
+                                                       vn => vn.Villa_Number == VillaNumberId);
+
+
+            if (villaNumber is not null)
+            {
+                List<Villa> villaItems = _dbContext.Villas.ToList();
+
+
+                ViewBag.VillaName = villaItems.Where(i => i.Id == villaNumber.VillaId)
+                                             .ToList()[0].Name;
+
+                return View(villaNumber);
+            }
+
+            string controllerName = nameof(HomeController);
+
+            return RedirectToAction(nameof(HomeController.Error),
+                controllerName.Substring(0, controllerName.IndexOf("Controller")));
         }
     }
 }
