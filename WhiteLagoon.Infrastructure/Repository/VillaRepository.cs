@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
@@ -28,14 +29,45 @@ namespace WhiteLagoon.Infrastructure.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Villa>> GetAllVillas(Expression<Func<Villa, bool>>? filter = null, string? includeNavigationProperties = null)
+        public async Task<IEnumerable<Villa>> GetAllVillas(Expression<Func<Villa, bool>>? filter = null, string? includeNavigationProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<Villa> query = _dbContext.Set<Villa>();
+
+            if (filter is not null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (!string.IsNullOrEmpty(includeNavigationProperties))
+            {
+                var properties = includeNavigationProperties.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string prop in properties)
+                {
+                    query = query.Include(prop);
+                }
+            }
+
+            return await query.ToListAsync();
         }
 
-        public Task<IEnumerable<Villa>> GetSingleVilla(Expression<Func<Villa, bool>> filter, string? includeNavigationProperties = null)
+        public async Task<Villa?> GetSingleVilla(Expression<Func<Villa, bool>> filter, string? includeNavigationProperties = null)
         {
-            throw new NotImplementedException();
+            IQueryable<Villa> query = _dbContext.Set<Villa>();
+
+            query = query.Where(filter);
+
+            if (!string.IsNullOrEmpty(includeNavigationProperties))
+            {
+                var properties = includeNavigationProperties.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string prop in properties)
+                {
+                    query = query.Include(prop);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task UpdateVilla(Villa villa)

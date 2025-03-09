@@ -7,7 +7,7 @@ namespace WhiteLagoon.Application.Common.Interfaces
     {
         public Task<IEnumerable<Villa>> GetAllVillas(Expression<Func<Villa, bool>>? filter = null, string? includeNavigationProperties = null);
 
-        public Task<IEnumerable<Villa>> GetSingleVilla(Expression<Func<Villa, bool>> filter, string? includeNavigationProperties = null);
+        public Task<Villa?> GetSingleVilla(Expression<Func<Villa, bool>> filter, string? includeNavigationProperties = null);
 
         public Task AddNewVilla(Villa newVilla);
 
