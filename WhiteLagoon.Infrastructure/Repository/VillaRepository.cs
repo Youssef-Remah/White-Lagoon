@@ -13,11 +13,9 @@ namespace WhiteLagoon.Infrastructure.Repository
             _dbContext = dbContext;
         }
         
-        public async Task Update(Villa villa)
+        public void Update(Villa villa)
         {
             _dbContext.Villas.Update(villa);
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

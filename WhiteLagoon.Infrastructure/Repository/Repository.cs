@@ -21,20 +21,16 @@ namespace WhiteLagoon.Infrastructure.Repository
         public async Task Add(T newEntity)
         {
             await _dbSet.AddAsync(newEntity);
-
-            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(T entity)
+        public void Delete(T entity)
         {
             _dbSet.Remove(entity);
-
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeNavigationProperties = null)
         {
-            IQueryable<T> query = _dbSet;
+            IQueryable<T> query = _dbSet.AsNoTracking();
 
             if (filter is not null)
             {

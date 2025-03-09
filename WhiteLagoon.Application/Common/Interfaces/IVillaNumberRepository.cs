@@ -4,6 +4,6 @@ namespace WhiteLagoon.Application.Common.Interfaces
 {
     public interface IVillaNumberRepository : IRepository<VillaNumber>
     {
-        public Task Update(VillaNumber villaNumber); 
+        public void Update(VillaNumber villaNumber); 
     }
 }

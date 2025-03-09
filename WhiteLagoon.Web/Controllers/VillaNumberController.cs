@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
-using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Web.Controllers
 {
     [Route("[controller]")]
     public class VillaNumberController : Controller
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VillaNumberController(ApplicationDbContext dbContext)
+        public VillaNumberController(IUnitOfWork unitOfWork)
         {
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -21,9 +20,7 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-             var villaNumbers = await _dbContext.VillaNumbers
-                                                .Include(vn => vn.Villa)
-                                                .ToListAsync();
+            var villaNumbers = await _unitOfWork.VillaNumber.GetAll(includeNavigationProperties: "Villa");
 
             return View(villaNumbers);
         }
@@ -31,15 +28,15 @@ namespace WhiteLagoon.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            IEnumerable<SelectListItem> listItems = _dbContext.Villas
-                                                       .ToList()
-                                                       .Select(v => new SelectListItem()
-                                                       {
-                                                           Text = v.Name,
-                                                           Value = v.Id.ToString()
-                                                       });
+            var villas = await _unitOfWork.Villa.GetAll();
+
+            IEnumerable<SelectListItem> listItems = villas.Select(v => new SelectListItem()
+            {
+                Text = v.Name,
+                Value = v.Id.ToString()
+            });
 
             ViewBag.VillaList = listItems;
 
@@ -51,16 +48,17 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Create(VillaNumber villaNumber)
         {
-            bool isRoomNumberExists = await _dbContext.VillaNumbers
-                                                .AnyAsync(vn => vn.Villa_Number == villaNumber.Villa_Number);
+            var villaNumbers = await _unitOfWork.VillaNumber.GetAll();
+
+            bool isRoomNumberExists = villaNumbers.Any(vn => vn.Villa_Number == villaNumber.Villa_Number);
 
             if (ModelState.IsValid)
             {
                 if (!isRoomNumberExists)
                 {
-                    await _dbContext.VillaNumbers.AddAsync(villaNumber);
+                    await _unitOfWork.VillaNumber.Add(villaNumber);
 
-                    await _dbContext.SaveChangesAsync();
+                    await _unitOfWork.Save();
 
                     TempData["success"] = "The villa number has been created successfully.";
 
@@ -81,19 +79,20 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]/{VillaNumberId}")]
         public async Task<IActionResult> Update(int VillaNumberId)
         {
-            IEnumerable<SelectListItem> listItems = _dbContext.Villas
-                                           .ToList()
-                                           .Select(v => new SelectListItem()
-                                           {
-                                               Text = v.Name,
-                                               Value = v.Id.ToString()
-                                           });
+            var villas = await _unitOfWork.Villa.GetAll();
+
+            IEnumerable<SelectListItem> listItems = villas.Select(v => new SelectListItem()
+            {
+                Text = v.Name,
+                Value = v.Id.ToString()
+            });
 
             ViewBag.VillaList = listItems;
 
-            VillaNumber? villaNumberObject = await _dbContext.VillaNumbers
-                                                       .FirstOrDefaultAsync(
-                                                        vn => vn.Villa_Number == VillaNumberId);
+            VillaNumber? villaNumberObject = await _unitOfWork.VillaNumber
+                                                              .Get(vn => vn.Villa_Number == VillaNumberId);
+
+
             if (villaNumberObject is null)
             {
                 string controllerName = nameof(HomeController);
@@ -110,15 +109,15 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Update(VillaNumber villaNumber)
         {
-            bool isVillaNumberExists = await _dbContext.VillaNumbers
-                                                 .AnyAsync(
-                                                 vn => vn.Villa_Number == villaNumber.Villa_Number);
+            var villaNumbers = await _unitOfWork.VillaNumber.GetAll();
+
+            bool isVillaNumberExists = villaNumbers.Any(vn => vn.Villa_Number == villaNumber.Villa_Number);
 
             if (ModelState.IsValid && isVillaNumberExists)
             {
-                _dbContext.VillaNumbers.Update(villaNumber);
+                _unitOfWork.VillaNumber.Update(villaNumber);
 
-                await _dbContext.SaveChangesAsync();
+                await _unitOfWork.Save();
 
                 TempData["success"] = "Villa number updated successfully";
 
@@ -135,16 +134,14 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]/{VillaNumberId}")]
         public async Task<IActionResult> Delete(int VillaNumberId)
         {
-            VillaNumber? villaNumber = await _dbContext.VillaNumbers
-                                                       .FirstOrDefaultAsync(
-                                                       vn => vn.Villa_Number == VillaNumberId);
+            VillaNumber? villaNumber = await _unitOfWork.VillaNumber
+                                                        .Get(vn => vn.Villa_Number == VillaNumberId);
 
 
             if (villaNumber is not null)
             {
-                List<Villa> villaItems = _dbContext.Villas.ToList();
-
-
+                IEnumerable<Villa> villaItems = await _unitOfWork.Villa.GetAll();
+                
                 ViewBag.VillaName = villaItems.Where(i => i.Id == villaNumber.VillaId)
                                              .ToList()[0].Name;
 
@@ -162,16 +159,14 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Delete(VillaNumber villaNumber)
         {
-            VillaNumber? villaNumberToDelete = await _dbContext.VillaNumbers
-                                                       .FirstOrDefaultAsync(
-                                                       vn => vn.Villa_Number == villaNumber.Villa_Number);
-
+            VillaNumber? villaNumberToDelete = await _unitOfWork.VillaNumber
+                                                                .Get(vn => vn.Villa_Number == villaNumber.Villa_Number);
 
             if (villaNumberToDelete is not null)
             {
-                _dbContext.VillaNumbers.Remove(villaNumberToDelete);
+                _unitOfWork.VillaNumber.Delete(villaNumberToDelete);
 
-                await _dbContext.SaveChangesAsync();
+                await _unitOfWork.Save();
 
                 TempData["success"] = "Villa Number deleted successfully";
 

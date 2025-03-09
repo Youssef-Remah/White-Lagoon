@@ -10,6 +10,6 @@ namespace WhiteLagoon.Application.Common.Interfaces
 
         public Task Add(T newEntity);
 
-        public Task Delete(T entity);
+        public void Delete(T entity);
     }
 }

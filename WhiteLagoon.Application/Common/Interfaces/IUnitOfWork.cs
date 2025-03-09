@@ -4,6 +4,10 @@
     {
         public IVillaRepository Villa { get; }
 
+
         public IVillaNumberRepository VillaNumber { get; }
+
+
+        public Task Save();
     }
 }

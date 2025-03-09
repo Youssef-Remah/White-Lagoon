@@ -21,5 +21,10 @@ namespace WhiteLagoon.Infrastructure.Repository
 
             VillaNumber = new VillaNumberRepository(_dbContext);
         }
+
+        public async Task Save()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
