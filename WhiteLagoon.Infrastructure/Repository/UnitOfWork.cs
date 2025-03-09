@@ -7,13 +7,19 @@ namespace WhiteLagoon.Infrastructure.Repository
     {
         public IVillaRepository Villa { get; private set; }
 
+        public IVillaNumberRepository VillaNumber { get; private set; }
+
+
         private readonly ApplicationDbContext _dbContext;
+
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
 
             Villa = new VillaRepository(_dbContext);
+
+            VillaNumber = new VillaNumberRepository(_dbContext);
         }
     }
 }
