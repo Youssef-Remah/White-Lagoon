@@ -1,76 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using WhiteLagoon.Application.Common.Interfaces;
+﻿using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Infrastructure.Repository
 {
-    public class VillaRepository : IVillaRepository
+    public class VillaRepository : Repository<Villa>, IVillaRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public VillaRepository(ApplicationDbContext dbContext)
+        public VillaRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
-
-        public async Task AddNewVilla(Villa newVilla)
-        {
-            await _dbContext.Villas.AddAsync(newVilla);
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteVilla(Villa villa)
-        {
-            _dbContext.Villas.Remove(villa);
-
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Villa>> GetAllVillas(Expression<Func<Villa, bool>>? filter = null, string? includeNavigationProperties = null)
-        {
-            IQueryable<Villa> query = _dbContext.Set<Villa>();
-
-            if (filter is not null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!string.IsNullOrEmpty(includeNavigationProperties))
-            {
-                var properties = includeNavigationProperties.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string prop in properties)
-                {
-                    query = query.Include(prop);
-                }
-            }
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<Villa?> GetSingleVilla(Expression<Func<Villa, bool>> filter, string? includeNavigationProperties = null)
-        {
-            IQueryable<Villa> query = _dbContext.Set<Villa>();
-
-            query = query.Where(filter);
-
-            if (!string.IsNullOrEmpty(includeNavigationProperties))
-            {
-                var properties = includeNavigationProperties.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string prop in properties)
-                {
-                    query = query.Include(prop);
-                }
-            }
-
-            return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task UpdateVilla(Villa villa)
+        
+        public async Task Update(Villa villa)
         {
             _dbContext.Villas.Update(villa);
 
