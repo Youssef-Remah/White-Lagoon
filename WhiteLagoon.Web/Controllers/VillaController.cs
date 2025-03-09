@@ -7,18 +7,18 @@ namespace WhiteLagoon.Web.Controllers
     [Route("[controller]")]
     public class VillaController : Controller
     {
-        private readonly IVillaRepository _villaRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VillaController(IVillaRepository villaRepository)
+        public VillaController(IUnitOfWork unitOfWork)
         {
-            _villaRepository = villaRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-             var villas = await _villaRepository.GetAll();
+            var villas = await _unitOfWork.Villa.GetAll();
 
             return View(villas);
         }
@@ -43,7 +43,7 @@ namespace WhiteLagoon.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                await _villaRepository.Add(newVilla);
+                await _unitOfWork.Villa.Add(newVilla);
 
                 TempData["success"] = "The Villa Has Been Created Successfully";
 
@@ -60,7 +60,7 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]/{Id}")]
         public async Task<IActionResult> Update(int Id)
         {
-            Villa? villa = await _villaRepository.Get(v => v.Id == Id);
+            Villa? villa = await _unitOfWork.Villa.Get(v => v.Id == Id);
 
             if (villa is null)
             {
@@ -80,7 +80,7 @@ namespace WhiteLagoon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _villaRepository.Update(villa);
+                await _unitOfWork.Villa.Update(villa);
 
                 TempData["success"] = "The Villa Has Been Updated Successfully";
 
@@ -97,7 +97,7 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]/{Id}")]
         public async Task<IActionResult> Delete(int Id)
         {
-            Villa? villa = await _villaRepository.Get(v => v.Id == Id);
+            Villa? villa = await _unitOfWork.Villa.Get(v => v.Id == Id);
 
             return View(villa);
         }
@@ -107,11 +107,11 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Delete(Villa villa)
         {
-            Villa? villaToDelete = await _villaRepository.Get(v => v.Id == villa.Id);
+            Villa? villaToDelete = await _unitOfWork.Villa.Get(v => v.Id == villa.Id);
 
             if (villaToDelete is not null)
             {
-                await _villaRepository.Delete(villaToDelete);
+                await _unitOfWork.Villa.Delete(villaToDelete);
 
                 TempData["success"] = "The Villa Has Been Deleted Successfully";
 
