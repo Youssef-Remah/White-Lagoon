@@ -1,0 +1,23 @@
+﻿using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Domain.Entities;
+using WhiteLagoon.Infrastructure.Data;
+
+namespace WhiteLagoon.Infrastructure.Repository
+{
+    public class VillaNumberRepository : Repository<VillaNumber>, IVillaNumberRepository
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+        public VillaNumberRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task Update(VillaNumber villaNumber)
+        {
+            _dbContext.VillaNumbers.Update(villaNumber);
+
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+}
