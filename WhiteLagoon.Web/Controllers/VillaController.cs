@@ -9,9 +9,13 @@ namespace WhiteLagoon.Web.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public VillaController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -43,6 +47,24 @@ namespace WhiteLagoon.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                if (newVilla.Image is not null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(newVilla.Image.FileName);
+
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+                    {
+                        newVilla.Image.CopyTo(fileStream);
+                    }
+
+                    newVilla.ImageUrl = @"images\VillaImage\" + fileName;
+                }
+                else
+                {
+                    newVilla.ImageUrl = "https://placehold.co/600x400";
+                }
+
                 await _unitOfWork.Villa.Add(newVilla);
 
                 await _unitOfWork.Save();
