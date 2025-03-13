@@ -4,6 +4,7 @@
     {
         public IVillaRepository Villa { get; }
 
+        public IAmenityRepository Amenity { get; }
 
         public IVillaNumberRepository VillaNumber { get; }
 
