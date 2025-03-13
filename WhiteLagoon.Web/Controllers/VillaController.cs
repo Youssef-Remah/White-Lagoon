@@ -162,6 +162,17 @@ namespace WhiteLagoon.Web.Controllers
 
             if (villaToDelete is not null)
             {
+                if (!string.IsNullOrEmpty(villaToDelete.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath,
+                        villaToDelete.ImageUrl.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
                 _unitOfWork.Villa.Delete(villaToDelete);
 
                 await _unitOfWork.Save();
