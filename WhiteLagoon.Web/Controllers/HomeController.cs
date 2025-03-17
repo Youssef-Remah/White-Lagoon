@@ -1,22 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
+using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
 {
     [Route("[controller]")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
 
         [Route("/")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var villaList = await _unitOfWork.Villa.GetAll(includeNavigationProperties: "VillaAmenities");
+
+            HomeViewModel homeVM = new()
+            {
+                VillaList = villaList,
+
+                NumberOfNights = 1,
+
+                CheckInDate = DateOnly.FromDateTime(DateTime.Now)
+            };
+
+            return View(homeVM);
         }
 
 
