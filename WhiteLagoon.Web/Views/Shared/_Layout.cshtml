@@ -45,6 +45,10 @@
                             </ul>
                         </li>
                     </ul>
+
+                    @{
+                        await Html.RenderPartialAsync("_LoginPartial");
+                    }
                 </div>
             </div>
         </nav>
