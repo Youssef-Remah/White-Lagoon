@@ -38,7 +38,7 @@ namespace WhiteLagoon.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Login(string redirectUrl = null)
+        public IActionResult Login(string? redirectUrl)
         {
             redirectUrl ??= Url.Content("~/");
 
@@ -50,9 +50,14 @@ namespace WhiteLagoon.Web.Controllers
             return View(loginViewModel);
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
 
+                await _roleManager.CreateAsync(new IdentityRole("Customer"));
+            }
 
             return View();
         }
