@@ -16,6 +16,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+        [HttpGet]
         [Route("/")]
         public async Task<IActionResult> Index()
         {
@@ -34,13 +35,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
-        [Route("[action]")]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-
+        [HttpGet]
         [Route("[action]")]
         public IActionResult Error()
         {

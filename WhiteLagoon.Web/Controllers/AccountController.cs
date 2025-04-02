@@ -52,6 +52,9 @@ namespace WhiteLagoon.Web.Controllers
             return View(loginViewModel);
         }
 
+
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Register()
         {
             if (!await _roleManager.RoleExistsAsync(SD.Role_Admin))
@@ -70,6 +73,69 @@ namespace WhiteLagoon.Web.Controllers
                     Value = role.Name
                 })
             };
+
+            return View(registerViewModel);
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            ApplicationUser user = new()
+            {
+                Name = registerViewModel.Name,
+
+                Email = registerViewModel.Email,
+
+                PhoneNumber = registerViewModel.PhoneNumber,
+
+                NormalizedEmail = registerViewModel.Email.ToUpper(),
+
+                EmailConfirmed = true,
+
+                UserName = registerViewModel.Email,
+
+                CreatedAt = DateTime.Now
+            };
+
+            var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+
+            if (result.Succeeded)
+            {
+                if (!string.IsNullOrEmpty(registerViewModel.Role))
+                {
+                    await _userManager.AddToRoleAsync(user, registerViewModel.Role);
+                }
+
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                }
+
+                await _signInManager.SignInAsync(user, false);
+
+                if (string.IsNullOrEmpty(registerViewModel.RedirectUrl))
+                {
+                    RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+
+                else
+                {
+                    return LocalRedirect(registerViewModel.RedirectUrl);
+                }
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            registerViewModel.RoleList = _roleManager.Roles.Select(role => new SelectListItem()
+            {
+                Text = role.Name,
+                Value = role.Name
+            });
 
             return View(registerViewModel);
         }
