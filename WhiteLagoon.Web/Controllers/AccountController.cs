@@ -175,5 +175,15 @@ namespace WhiteLagoon.Web.Controllers
 
             return View(loginViewModel);
         }
+
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> Logout()
+        {
+           await _signInManager.SignOutAsync();
+
+           return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
     }
 }
