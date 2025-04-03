@@ -82,53 +82,56 @@ namespace WhiteLagoon.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            ApplicationUser user = new()
+            if (ModelState.IsValid)
             {
-                Name = registerViewModel.Name,
-
-                Email = registerViewModel.Email,
-
-                PhoneNumber = registerViewModel.PhoneNumber,
-
-                NormalizedEmail = registerViewModel.Email.ToUpper(),
-
-                EmailConfirmed = true,
-
-                UserName = registerViewModel.Email,
-
-                CreatedAt = DateTime.Now
-            };
-
-            var result = await _userManager.CreateAsync(user, registerViewModel.Password);
-
-            if (result.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(registerViewModel.Role))
+                ApplicationUser user = new()
                 {
-                    await _userManager.AddToRoleAsync(user, registerViewModel.Role);
+                    Name = registerViewModel.Name,
+
+                    Email = registerViewModel.Email,
+
+                    PhoneNumber = registerViewModel.PhoneNumber,
+
+                    NormalizedEmail = registerViewModel.Email.ToUpper(),
+
+                    EmailConfirmed = true,
+
+                    UserName = registerViewModel.Email,
+
+                    CreatedAt = DateTime.Now
+                };
+
+                var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(registerViewModel.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, registerViewModel.Role);
+                    }
+
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    }
+
+                    await _signInManager.SignInAsync(user, false);
+
+                    if (string.IsNullOrEmpty(registerViewModel.RedirectUrl))
+                    {
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                    }
+
+                    else
+                    {
+                        return LocalRedirect(registerViewModel.RedirectUrl);
+                    }
                 }
 
-                else
+                foreach (var error in result.Errors)
                 {
-                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    ModelState.AddModelError("", error.Description);
                 }
-
-                await _signInManager.SignInAsync(user, false);
-
-                if (string.IsNullOrEmpty(registerViewModel.RedirectUrl))
-                {
-                    RedirectToAction(nameof(HomeController.Index), "Home");
-                }
-
-                else
-                {
-                    return LocalRedirect(registerViewModel.RedirectUrl);
-                }
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
             }
 
             registerViewModel.RoleList = _roleManager.Roles.Select(role => new SelectListItem()
@@ -184,6 +187,14 @@ namespace WhiteLagoon.Web.Controllers
            await _signInManager.SignOutAsync();
 
            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
