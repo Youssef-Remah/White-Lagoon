@@ -14,6 +14,8 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+        [HttpGet]
+        [Route("[action]/{villaId}/{checkInDate}/{nights}")]
         public async Task<IActionResult> FinalizeBooking(int villaId, DateOnly checkInDate, int nights)
         {
             Booking booking = new()
