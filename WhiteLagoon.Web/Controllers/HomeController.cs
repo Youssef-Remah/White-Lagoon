@@ -36,16 +36,18 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+        //[HttpPost]
+        //[Route("[action]")]
+        //public async Task<IActionResult> Index(HomeViewModel homeViewModel)
+        //{
+        //    homeViewModel.VillaList = await _unitOfWork.Villa
+        //                                               .GetAll(includeNavigationProperties: "VillaAmenities");
+
+        //    return View(homeViewModel);
+        //}
+
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Index(HomeViewModel homeViewModel)
-        {
-            homeViewModel.VillaList = await _unitOfWork.Villa
-                                                       .GetAll(includeNavigationProperties: "VillaAmenities");
-
-            return View(homeViewModel);
-        }
-
 
         public async Task<IActionResult> GetVillasByDate(int nights, DateOnly checkInDate)
         {
