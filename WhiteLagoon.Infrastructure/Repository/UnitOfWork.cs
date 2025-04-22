@@ -13,6 +13,8 @@ namespace WhiteLagoon.Infrastructure.Repository
 
         public IBookingRepository BookingRepository { get; private set; }
 
+        public IApplicationUserRepository ApplicationUser { get; private set; }
+
 
         private readonly ApplicationDbContext _dbContext;
 
@@ -28,6 +30,8 @@ namespace WhiteLagoon.Infrastructure.Repository
             Amenity = new AmenityRepository(_dbContext);
 
             BookingRepository = new BookingRepository(_dbContext);
+
+            ApplicationUser = new ApplicationUserRepository(_dbContext);
         }
 
         public async Task Save()

@@ -10,6 +10,8 @@
 
         public IBookingRepository BookingRepository { get; }
 
+        public IApplicationUserRepository ApplicationUser { get; }
+
         public Task Save();
     }
 }
