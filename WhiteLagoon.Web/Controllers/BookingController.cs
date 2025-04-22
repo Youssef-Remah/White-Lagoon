@@ -4,6 +4,7 @@ using WhiteLagoon.Domain.Entities;
 
 namespace WhiteLagoon.Web.Controllers
 {
+    [Route("[controller]")]
     public class BookingController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -15,7 +16,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [HttpGet]
-        [Route("[action]/{villaId}/{checkInDate}/{nights}")]
+        [Route("[action]")]
         public async Task<IActionResult> FinalizeBooking(int villaId, DateOnly checkInDate, int nights)
         {
             Booking booking = new()
@@ -28,6 +29,8 @@ namespace WhiteLagoon.Web.Controllers
                 Nights = nights,
                 CheckOutDate = checkInDate.AddDays(nights),
             };
+
+            booking.TotalCost = booking.Villa.Price * nights;
 
             return View(booking);
         }
