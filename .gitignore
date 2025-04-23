@@ -12,6 +12,7 @@ obj/
 out/
 
 # ASP.NET Core environment files
+appsettings.json
 appsettings.Development.json
 appsettings.Local.json
 secrets.json
