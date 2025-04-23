@@ -8,7 +8,7 @@
 
         public IVillaNumberRepository VillaNumber { get; }
 
-        public IBookingRepository BookingRepository { get; }
+        public IBookingRepository Booking { get; }
 
         public IApplicationUserRepository ApplicationUser { get; }
 

@@ -11,7 +11,7 @@ namespace WhiteLagoon.Infrastructure.Repository
 
         public IAmenityRepository Amenity { get; private set; }
 
-        public IBookingRepository BookingRepository { get; private set; }
+        public IBookingRepository Booking { get; private set; }
 
         public IApplicationUserRepository ApplicationUser { get; private set; }
 
@@ -29,7 +29,7 @@ namespace WhiteLagoon.Infrastructure.Repository
 
             Amenity = new AmenityRepository(_dbContext);
 
-            BookingRepository = new BookingRepository(_dbContext);
+            Booking = new BookingRepository(_dbContext);
 
             ApplicationUser = new ApplicationUserRepository(_dbContext);
         }

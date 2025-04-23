@@ -31,6 +31,9 @@
         </div>
         <div class="col-12 col-lg-5 p-4 2 mt-4 mt-md-0" style="border-left:1px solid #aaa">
             <form method="post">
+				<input type="hidden" asp-for="VillaId" />
+				<input type="hidden" asp-for="UserId" />
+
                 <div class="row pt-1 mb-3 " style="border-radius:20px; ">
                     <div class="col-12">
                         <h3 class="text-success">Enter Booking Details</h3>
@@ -54,15 +57,15 @@
                 </div>
                 <div class="form-group pt-2">
                     <label asp-for="CheckInDate" class="text-warning">Check in Date</label>
-                    <input asp-for="CheckInDate" disabled class="form-control" />
+                    <input asp-for="CheckInDate" readonly class="form-control" />
                 </div>
                 <div class="form-group pt-2">
                     <label asp-for="CheckOutDate" class="text-warning">Check Out Date</label>
-                    <input asp-for="CheckOutDate" disabled class="form-control" />
+                    <input asp-for="CheckOutDate" readonly class="form-control" />
                 </div>
                 <div class="form-group pt-2">
                     <label asp-for ="Nights" class="text-warning">No. of nights</label>
-                    <input asp-for ="Nights" disabled class="form-control" />
+                    <input asp-for ="Nights" readonly class="form-control" />
                 </div>
                 <div class="form-group pt-2 pt-md-4">
                     @if (Model.Villa.IsAvailable)
