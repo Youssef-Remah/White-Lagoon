@@ -146,7 +146,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpGet]
         [Route("[action]")]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string status)
         {
             IEnumerable<Booking> bookings;
 
@@ -163,6 +163,10 @@ namespace WhiteLagoon.Web.Controllers
 
                 bookings = await _unitOfWork.Booking.GetAll(b => b.UserId == userId,
                 includeNavigationProperties: "User,Villa");
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                bookings = bookings.Where(b => b.Status.ToLower() == status.ToLower());
             }
 
             return Json(new { data = bookings });
