@@ -22,6 +22,15 @@ namespace WhiteLagoon.Web.Controllers
         [Authorize]
         [HttpGet]
         [Route("[action]")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+        [Authorize]
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> FinalizeBooking(int villaId, DateOnly checkInDate, int nights)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -130,5 +139,35 @@ namespace WhiteLagoon.Web.Controllers
 
             return View(bookingId);
         }
+
+
+        #region API Calls
+
+        [HttpGet]
+        [Route("[action]")]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            IEnumerable<Booking> bookings;
+
+            if (User.IsInRole(SD.Role_Admin))
+            {
+                bookings = await _unitOfWork.Booking
+                                            .GetAll(includeNavigationProperties: "User,Villa");
+            }
+            else
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                bookings = await _unitOfWork.Booking.GetAll(b => b.UserId == userId,
+                includeNavigationProperties: "User,Villa");
+            }
+
+            return Json(new { data = bookings });
+        }
+
+        #endregion
     }
 }
