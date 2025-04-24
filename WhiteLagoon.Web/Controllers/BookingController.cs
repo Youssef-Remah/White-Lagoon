@@ -140,6 +140,17 @@ namespace WhiteLagoon.Web.Controllers
             return View(bookingId);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> BookingDetails(int bookingId)
+        {
+            Booking booking = await _unitOfWork.Booking
+                                         .Get(b => b.Id == bookingId,
+                                         includeNavigationProperties: "User,Villa");
+
+            return View(booking);
+        }
 
         #region API Calls
 
