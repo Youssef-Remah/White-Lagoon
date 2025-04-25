@@ -38,7 +38,6 @@ namespace WhiteLagoon.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-
         public async Task<IActionResult> GetVillasByDate(int nights, DateOnly checkInDate)
         {
             var villaList = await _unitOfWork.Villa
