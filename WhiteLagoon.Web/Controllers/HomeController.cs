@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
@@ -8,7 +9,6 @@ namespace WhiteLagoon.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
 
         public HomeController(IUnitOfWork unitOfWork)
         {
@@ -36,16 +36,6 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("[action]")]
-        //public async Task<IActionResult> Index(HomeViewModel homeViewModel)
-        //{
-        //    homeViewModel.VillaList = await _unitOfWork.Villa
-        //                                               .GetAll(includeNavigationProperties: "VillaAmenities");
-
-        //    return View(homeViewModel);
-        //}
-
         [HttpPost]
         [Route("[action]")]
 
@@ -54,12 +44,17 @@ namespace WhiteLagoon.Web.Controllers
             var villaList = await _unitOfWork.Villa
                                              .GetAll(includeNavigationProperties: "VillaAmenities");
 
+            var villaNumbersList = await _unitOfWork.VillaNumber.GetAll();
+
+            var bookedVillas = await _unitOfWork.Booking.GetAll(u => u.Status == SD.StatusApproved || 
+            u.Status == SD.StatusCheckedIn);
+
             foreach (var villa in villaList)
             {
-                if (villa.Id % 2 == 0)
-                {
-                    villa.IsAvailable = false;
-                }
+                int roomAvailable = SD.VillaRoomsAvailable_Count(villa.Id,
+                    villaNumbersList.ToList(), checkInDate, nights, bookedVillas.ToList());
+
+                villa.IsAvailable = roomAvailable > 0 ? true : false;
             }
 
             HomeViewModel homeViewModel = new()
@@ -71,6 +66,7 @@ namespace WhiteLagoon.Web.Controllers
 
             return PartialView("_VillaList", homeViewModel);
         }
+
 
         [HttpGet]
         [Route("[action]")]
