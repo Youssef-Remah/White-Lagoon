@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Stripe;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Domain.Entities;
@@ -163,14 +164,24 @@ namespace WhiteLagoon.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (string.IsNullOrEmpty(loginViewModel.RedirectUrl))
+                    var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+
+                    if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
                     {
-                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                        return RedirectToAction(nameof(DashboardController.Index), "Dashboard");
                     }
 
-                    else
+                    else 
                     {
-                        return LocalRedirect(loginViewModel.RedirectUrl);
+                        if (string.IsNullOrEmpty(loginViewModel.RedirectUrl))
+                        {
+                            return RedirectToAction(nameof(HomeController.Index), "Home");
+                        }
+
+                        else
+                        {
+                            return LocalRedirect(loginViewModel.RedirectUrl);
+                        }
                     }
                 }
 
