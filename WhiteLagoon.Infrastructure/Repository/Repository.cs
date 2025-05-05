@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Infrastructure.Data;
@@ -28,9 +29,22 @@ namespace WhiteLagoon.Infrastructure.Repository
             _dbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeNavigationProperties = null)
+        public async Task<IEnumerable<T>> GetAll(
+            Expression<Func<T, bool>>? filter = null,
+            string? includeNavigationProperties = null,
+            bool tracked = false
+        )
         {
-            IQueryable<T> query = _dbSet.AsNoTracking();
+            IQueryable<T> query;
+
+            if (tracked)
+            {
+                query = _dbSet;
+            }
+            else
+            {
+                query = _dbSet.AsNoTracking();
+            }
 
             if (filter is not null)
             {
@@ -50,11 +64,27 @@ namespace WhiteLagoon.Infrastructure.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<T?> Get(Expression<Func<T, bool>> filter, string? includeNavigationProperties = null)
+        public async Task<T?> Get(
+            Expression<Func<T, bool>> filter,
+            string? includeNavigationProperties = null,
+            bool tracked = false
+        )
         {
-            IQueryable<T> query = _dbSet;
+            IQueryable<T> query;
 
-            query = query.Where(filter);
+            if (tracked)
+            {
+                query = _dbSet;
+            }
+            else
+            {
+                query = _dbSet.AsNoTracking();
+            }
+
+            if (filter is not null)
+            {
+                query = query.Where(filter);
+            }
 
             if (!string.IsNullOrEmpty(includeNavigationProperties))
             {
