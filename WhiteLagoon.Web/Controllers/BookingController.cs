@@ -9,6 +9,7 @@ using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Domain.Entities;
 using Syncfusion.Drawing;
+using Syncfusion.Pdf;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -264,7 +265,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         [Authorize]
         [Route("[action]")]
-        public async Task<IActionResult> GenerateInvoice(int id)
+        public async Task<IActionResult> GenerateInvoice(int id, string downloadType)
         {
             string basePath = _webHostEnvironment.WebRootPath;
 
@@ -294,29 +295,23 @@ namespace WhiteLagoon.Web.Controllers
 
             textSelection = document.Find("XX_BOOKING_NUMBER", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = "BOOKING ID - " + bookingFromDb.Id;
             textSelection = document.Find("XX_BOOKING_DATE", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = "BOOKING DATE - " + bookingFromDb.BookingDate.ToShortDateString();
 
 
             textSelection = document.Find("xx_payment_date", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = bookingFromDb.PaymentDate.ToShortDateString();
             textSelection = document.Find("xx_checkin_date", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = bookingFromDb.CheckInDate.ToShortDateString();
             textSelection = document.Find("xx_checkout_date", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = bookingFromDb.CheckOutDate.ToShortDateString(); ;
             textSelection = document.Find("xx_booking_total", false, true);
             textRange = textSelection.GetAsOneRange();
-
             textRange.Text = bookingFromDb.TotalCost.ToString("c");
 
             WTable table = new(document);
@@ -327,7 +322,8 @@ namespace WhiteLagoon.Web.Controllers
             table.TableFormat.Paddings.Bottom = 7f;
             table.TableFormat.Borders.Horizontal.LineWidth = 1f;
 
-            table.ResetCells(2, 4);
+            int rows = bookingFromDb.VillaNumber > 0 ? 3 : 2;
+            table.ResetCells(rows, 4);
 
             WTableRow row0 = table.Rows[0];
 
@@ -349,6 +345,16 @@ namespace WhiteLagoon.Web.Controllers
             row1.Cells[3].AddParagraph().AppendText(bookingFromDb.TotalCost.ToString("c"));
             row1.Cells[3].Width = 80;
 
+            if (bookingFromDb.VillaNumber > 0)
+            {
+                WTableRow row2 = table.Rows[2];
+
+                row2.Cells[0].Width = 80;
+                row2.Cells[1].AddParagraph().AppendText("Villa Number - " + bookingFromDb.VillaNumber.ToString());
+                row2.Cells[1].Width = 220;
+                row2.Cells[3].Width = 80;
+            }
+
             WTableStyle tableStyle = document.AddTableStyle("CustomStyle") as WTableStyle;
             tableStyle.TableProperties.RowStripe = 1;
             tableStyle.TableProperties.ColumnStripe = 2;
@@ -369,13 +375,25 @@ namespace WhiteLagoon.Web.Controllers
 
             document.Replace("<ADDTABLEHERE>", bodyPart, false, false);
 
+
             using DocIORenderer renderer = new();
-
             MemoryStream stream = new();
-            document.Save(stream, FormatType.Docx);
-            stream.Position = 0;
+            if (downloadType == "word")
+            {
 
-            return File(stream, "application/docx", "BookingDetails.docx");
+                document.Save(stream, FormatType.Docx);
+                stream.Position = 0;
+
+                return File(stream, "application/docx", "BookingDetails.docx");
+            }
+            else
+            {
+                PdfDocument pdfDocument = renderer.ConvertToPDF(document);
+                pdfDocument.Save(stream);
+                stream.Position = 0;
+
+                return File(stream, "application/pdf", "BookingDetails.pdf");
+            }
         }
 
 
