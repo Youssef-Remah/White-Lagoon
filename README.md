@@ -51,7 +51,3 @@ To run this project locally:
 > You need to create a [Stripe](https://stripe.com/) account to obtain the API keys.
 
 3. Run the project using Visual Studio or `dotnet run` from the terminal.
-
-## Project Status
-
-This project is currently in **development**. More features and enhancements will be added in the near future.
